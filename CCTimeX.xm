@@ -1,14 +1,17 @@
 static BOOL shouldCreate = YES;
-static NSString *timeString = @"error";
+static CGFloat xStart = 150;
 
 %hook CCUIStatusBar
 
 	- (void)layoutSubviews {
 		if(shouldCreate) {
-			UILabel *CCTime = [[UILabel alloc] initWithFrame:CGRectMake(150, 16, 75, 16)];
+			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+			[dateFormatter setDateFormat:@"hh:mm a"];
+
+			UILabel *CCTime = [[UILabel alloc] initWithFrame:CGRectMake(xStart, 17, 75, 16)];
 			[CCTime setTextColor:[UIColor whiteColor]];
 			[CCTime setFont:[UIFont fontWithName:@".SFUIText-Semibold" size:13]];
-			CCTime.text = timeString;
+			CCTime.text = [dateFormatter stringFromDate: [NSDate date]];
 			CCTime.textAlignment = NSTextAlignmentCenter;
 			[self addSubview:CCTime];
 			[CCTime release];
@@ -23,19 +26,15 @@ static NSString *timeString = @"error";
 		%orig;
 	}
 
+	- (id)initWithFrame:(CGRect)rect {
+		xStart = rect.size.width == 375 ? 150 : 368;
+		return %orig;
+	}
+
 	%new
 
 	- (void)setShouldCreate {
 		shouldCreate = YES;
-	}
-
-%end
-
-%hook _UIStatusBarStringView
-	
-	- (void)setOriginalText:(NSString *)time {
-		timeString = time;
-		%orig;
 	}
 
 %end
