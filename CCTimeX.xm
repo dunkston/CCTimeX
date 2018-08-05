@@ -6,7 +6,7 @@ static CGFloat xStart = 150;
 	- (void)layoutSubviews {
 		if(shouldCreate) {
 			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-			[dateFormatter setDateFormat:@"hh:mm a"];
+			[dateFormatter setDateFormat:@"h:mm a"];
 
 			UILabel *CCTime = [[UILabel alloc] initWithFrame:CGRectMake(xStart, 17, 75, 16)];
 			[CCTime setTextColor:[UIColor whiteColor]];

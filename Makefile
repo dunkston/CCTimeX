@@ -8,5 +8,7 @@ CCTimeX_FILES = CCTimeX.xm
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
+export COPYFILE_DISABLE = 1
+
 after-install::
 	install.exec "killall -9 SpringBoard"
